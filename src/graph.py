@@ -7,6 +7,7 @@ from src.agents.researcher import researcher_node
 from src.agents.writer import writer_node
 from src.config import MAX_REVISIONS
 from src.schemas import GraphState
+from src.timing import timed_node
 
 
 def _route_after_critic(state: GraphState) -> str:
@@ -39,12 +40,12 @@ def _finalize_node(state: GraphState) -> GraphState:
 def build_graph():
     graph = StateGraph(GraphState)
 
-    graph.add_node("planner", planner_node)
-    graph.add_node("researcher", researcher_node)
-    graph.add_node("analyst", analyst_node)
-    graph.add_node("writer", writer_node)
-    graph.add_node("critic", critic_node)
-    graph.add_node("finalize", _finalize_node)
+    graph.add_node("planner", timed_node("planner")(planner_node))
+    graph.add_node("researcher", timed_node("researcher")(researcher_node))
+    graph.add_node("analyst", timed_node("analyst")(analyst_node))
+    graph.add_node("writer", timed_node("writer")(writer_node))
+    graph.add_node("critic", timed_node("critic")(critic_node))
+    graph.add_node("finalize", timed_node("finalize")(_finalize_node))
 
     graph.set_entry_point("planner")
     graph.add_edge("planner", "researcher")

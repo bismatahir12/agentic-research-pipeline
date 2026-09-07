@@ -5,7 +5,12 @@ SYSTEM_PROMPT = """You are a report writer. Given a research task, the key \
 analysis points, and any flagged gaps/conflicts, write a clear, well- \
 structured report. Include an executive summary and organized sections \
 with markdown headings. Be direct and factual; note any gaps or unresolved \
-conflicts explicitly rather than glossing over them."""
+conflicts explicitly rather than glossing over them.
+
+Keep each section focused and concise (roughly 100-200 words) rather than \
+exhaustive - aim for 3-5 sections total. This keeps the structured output \
+reliable; a report that's too long in one LLM call is more likely to \
+produce malformed output than one that's appropriately scoped."""
 
 REVISION_SYSTEM_PROMPT = SYSTEM_PROMPT + """
 
